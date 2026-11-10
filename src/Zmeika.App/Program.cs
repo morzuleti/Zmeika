@@ -56,6 +56,6 @@ PlayersStore players = PlayersStore.Load(AppContext.BaseDirectory);
 GameHost host = new(console);
 SystemRandomSource random = new();
 GameFlow flow = new(config.Rules, random, players, TimeProvider.System);
-GameContext context = new(config.Theme, config.Timings, host, config.Interface, settings.Current, flow);
+GameContext context = new(config.Theme, config.Timings, host, config.Interface, settings, flow);
 await host.RunAsync(new NameInputScreen(context)).ConfigureAwait(false);
 return SuccessExitCode;

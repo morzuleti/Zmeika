@@ -9,9 +9,11 @@ internal sealed record GameContext(
     GameTimings Timings,
     INavigator Navigator,
     InterfaceOptions Interface,
-    PlayerSettings Settings,
+    SettingsStore SettingsStore,
     GameFlow Flow)
 {
+    public PlayerSettings Settings => SettingsStore.Current;
+
     public KeyBindings Keys => Settings.Keys;
 
     public SnakeSkin Skin => Settings.ResolveSkin(Theme);

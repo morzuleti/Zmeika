@@ -14,10 +14,8 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
     private const int ExitItem = 4;
 
     private static readonly string[] s_items = ["Continue", "New game", "Leaderboard", "Settings", "Exit"];
-    private static readonly TimeSpan s_hintDuration = TimeSpan.FromSeconds(2);
 
     private readonly MenuSelection _selection = new(s_items.Length);
-    private TimeSpan _settingsHintLeft;
 
     public void HandleKey(ConsoleKeyInfo key)
     {
@@ -35,10 +33,6 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
 
     public void Update(TimeSpan elapsed)
     {
-        if (_settingsHintLeft > TimeSpan.Zero)
-        {
-            _settingsHintLeft -= elapsed;
-        }
     }
 
     public void Paint(FrameBuffer buffer)
@@ -51,10 +45,7 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
         DialogPainter.Paint(buffer, x, y, LevelView.DialogWidth, Height, "MENU", menu);
         MenuPainter.Paint(buffer, x, y + 3, s_items, _selection.Index, menu);
 
-        string hint = _settingsHintLeft > TimeSpan.Zero
-            ? "Settings: coming soon"
-            : $"{Glyphs.ArrowUp}{Glyphs.ArrowDown} choose  Enter ok";
-        buffer.Write(x + 2, y + Height - 2, hint, menu.Hint);
+        buffer.Write(x + 2, y + Height - 2, $"{Glyphs.ArrowUp}{Glyphs.ArrowDown} choose  Enter ok", menu.Hint);
     }
 
     private void Activate(int item)
@@ -71,7 +62,7 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
                 context.Navigator.Show(LeaderboardScreen.FromMenu(context, session, this));
                 break;
             case SettingsItem:
-                _settingsHintLeft = s_hintDuration;
+                context.Navigator.Show(new SettingsScreen(context, session, this));
                 break;
             case ExitItem:
                 context.Navigator.Exit();
