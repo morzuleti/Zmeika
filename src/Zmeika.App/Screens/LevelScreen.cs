@@ -49,10 +49,10 @@ internal sealed class LevelScreen(GameContext context, GameSession session) : IS
         switch (session.Status)
         {
             case GameStatus.LevelCompleted:
-                context.Navigator.Show(new LevelCompleteScreen(context, session));
+                context.Navigator.Show(FireworksScreens.LevelComplete(context, session));
                 break;
             case GameStatus.Won:
-                context.Navigator.Show(LeaderboardScreen.AfterGame(context, session, isWin: true));
+                context.Navigator.Show(FireworksScreens.GameComplete(context, session));
                 break;
             case GameStatus.Playing:
             case GameStatus.Died:
