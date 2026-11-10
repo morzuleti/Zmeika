@@ -16,7 +16,7 @@
   "gameplay": {
     "initialLives": 3,
     "maxLives": 9,
-    "initialBodyLength": 3,
+    "initialLength": 4,
     "pointsPerApple": 50,
     "heartSpawnMinSeconds": 15,
     "heartSpawnMaxSeconds": 45,

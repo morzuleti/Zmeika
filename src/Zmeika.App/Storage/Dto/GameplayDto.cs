@@ -3,7 +3,7 @@ namespace Zmeika.App.Storage.Dto;
 internal sealed record GameplayDto(
     int InitialLives,
     int MaxLives,
-    int InitialBodyLength,
+    int InitialLength,
     int PointsPerApple,
     double HeartSpawnMinSeconds,
     double HeartSpawnMaxSeconds,
