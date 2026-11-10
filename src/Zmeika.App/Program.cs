@@ -1,3 +1,4 @@
+using Zmeika.App.Audio;
 using Zmeika.App.ConsoleHost;
 using Zmeika.App.Hosting;
 using Zmeika.App.Preview;
@@ -28,6 +29,8 @@ catch (ConfigException exception)
     return ConfigErrorExitCode;
 }
 
+DebugHooks.RenderSoundTestIfRequested(args, config.Audio);
+
 if (args.Contains(PreviewFlag))
 {
     new GlyphPreview(config.Theme).Run();
@@ -52,6 +55,7 @@ if (!console.HasRequiredSize)
 
 CrashHandler.Install(console, AppContext.BaseDirectory);
 DebugHooks.ThrowIfCrashTestRequested(args);
+using IAudio audio = NAudioPlayer.Create(config.Audio);
 
 SettingsStore settings = SettingsStore.Load(AppContext.BaseDirectory, config.Theme);
 PlayersStore players = PlayersStore.Load(AppContext.BaseDirectory);
@@ -59,6 +63,6 @@ PlayersStore players = PlayersStore.Load(AppContext.BaseDirectory);
 GameHost host = new(console);
 SystemRandomSource random = new();
 GameFlow flow = new(config.Rules, random, players, TimeProvider.System);
-GameContext context = new(config.Theme, config.Timings, host, config.Interface, settings, flow);
+GameContext context = new(config.Theme, config.Timings, host, config.Interface, settings, flow, audio);
 await host.RunAsync(new IntroScreen(context)).ConfigureAwait(false);
 return SuccessExitCode;

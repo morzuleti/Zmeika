@@ -1,3 +1,4 @@
+using Zmeika.App.Audio;
 using Zmeika.App.Input;
 using Zmeika.App.Rendering;
 using Zmeika.App.Storage;
@@ -10,7 +11,8 @@ internal sealed record GameContext(
     INavigator Navigator,
     InterfaceOptions Interface,
     SettingsStore SettingsStore,
-    GameFlow Flow)
+    GameFlow Flow,
+    IAudio Audio)
 {
     public PlayerSettings Settings => SettingsStore.Current;
 

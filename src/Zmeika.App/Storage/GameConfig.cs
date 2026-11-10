@@ -1,3 +1,4 @@
+using Zmeika.App.Audio;
 using Zmeika.App.Rendering;
 using Zmeika.App.Storage.Dto;
 using Zmeika.Core.Gameplay;
@@ -9,4 +10,5 @@ internal sealed record GameConfig(
     Theme Theme,
     GameRules Rules,
     GameTimings Timings,
-    InterfaceOptions Interface);
+    InterfaceOptions Interface,
+    AudioMap Audio);

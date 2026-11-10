@@ -13,8 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio.Core" />
+    <PackageReference Include="NAudio.WinMM" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="config\game.json" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="config\game.json" LogicalName="Zmeika.App.config.game.json" />
+    <Content Include="sounds\*.wav" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

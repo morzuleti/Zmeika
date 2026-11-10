@@ -27,7 +27,8 @@ internal static class GameConfigLoader
                 ThemeFactory.Create(document),
                 RulesFactory.Create(document),
                 TimingsFactory.Create(document.Gameplay),
-                InterfaceOptions.Create(document.Gameplay));
+                InterfaceOptions.Create(document.Gameplay),
+                AudioMapFactory.Create(document, baseDirectory));
         }
         catch (Exception exception) when (exception is JsonException or ConfigException)
         {
