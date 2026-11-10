@@ -11,5 +11,13 @@ internal sealed record GameContext(
     GameTimings Timings,
     IRandomSource Random,
     INavigator Navigator,
-    KeyBindings Keys,
-    string PlayerName);
+    PlayerSettings Settings,
+    PlayersStore Players,
+    string PlayerName)
+{
+    public KeyBindings Keys => Settings.Keys;
+
+    public SnakeSkin Skin => Settings.ResolveSkin(Theme);
+
+    public Rgb SnakeColor => Settings.ResolveColor(Theme);
+}

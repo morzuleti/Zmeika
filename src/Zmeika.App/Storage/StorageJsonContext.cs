@@ -11,6 +11,9 @@ namespace Zmeika.App.Storage;
     RespectNullableAnnotations = true,
     RespectRequiredConstructorParameters = true,
     UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
+    UseStringEnumConverter = true,
     WriteIndented = true)]
 [JsonSerializable(typeof(GameConfigDto))]
+[JsonSerializable(typeof(SettingsDto))]
+[JsonSerializable(typeof(PlayersDto))]
 internal sealed partial class StorageJsonContext : JsonSerializerContext;

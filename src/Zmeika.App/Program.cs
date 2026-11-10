@@ -1,6 +1,5 @@
 using Zmeika.App.ConsoleHost;
 using Zmeika.App.Hosting;
-using Zmeika.App.Input;
 using Zmeika.App.Preview;
 using Zmeika.App.Rendering;
 using Zmeika.App.Screens;
@@ -52,8 +51,11 @@ if (!console.HasRequiredSize)
     return WindowTooSmallExitCode;
 }
 
+SettingsStore settings = SettingsStore.Load(AppContext.BaseDirectory, config.Theme);
+PlayersStore players = PlayersStore.Load(AppContext.BaseDirectory);
+
 GameHost host = new(console);
 SystemRandomSource random = new();
-GameContext context = new(config.Rules, config.Theme, config.Timings, random, host, KeyBindings.Default, PlaceholderPlayer);
+GameContext context = new(config.Rules, config.Theme, config.Timings, random, host, settings.Current, players, PlaceholderPlayer);
 await host.RunAsync(new GetReadyScreen(context, GameSession.NewGame(config.Rules, random))).ConfigureAwait(false);
 return SuccessExitCode;

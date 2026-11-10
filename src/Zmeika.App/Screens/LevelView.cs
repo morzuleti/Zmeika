@@ -19,8 +19,8 @@ internal static class LevelView
         LevelSession level = session.Current;
         FieldStyle style = new(
             theme.Levels[level.Level - 1],
-            theme.DefaultSkin,
-            theme.DefaultSnakeColor.Color,
+            context.Skin,
+            context.SnakeColor,
             theme.AppleColors,
             theme.Heart);
         FieldPainter.Paint(buffer, level, style);
