@@ -33,7 +33,8 @@ internal static class LevelView
             level.ApplesEaten,
             level.ApplesRequired,
             session.Score,
-            KeyNames.ForHud(context.Keys));
+            KeyNames.ForHud(context.Keys),
+            context.Flow.IsSaveWarningVisible ? "Progress not saved" : null);
         HudPainter.Paint(buffer, hud, theme.Hud);
     }
 

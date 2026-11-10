@@ -8,4 +8,5 @@ internal sealed record HudModel(
     int ApplesEaten,
     int ApplesRequired,
     int Score,
-    HudControls Controls);
+    HudControls Controls,
+    string? Warning = null);

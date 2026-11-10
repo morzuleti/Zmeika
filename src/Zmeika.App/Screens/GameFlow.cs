@@ -6,11 +6,15 @@ namespace Zmeika.App.Screens;
 
 internal sealed class GameFlow(GameRules rules, IRandomSource random, PlayersStore players, TimeProvider clock)
 {
+    private static readonly TimeSpan s_saveWarningDuration = TimeSpan.FromSeconds(3);
+
     private Guid? _gameId;
+    private long? _lastSaveFailure;
 
     public PlayerName? Player { get; private set; }
 
-    public bool LastSaveFailed { get; private set; }
+    public bool IsSaveWarningVisible =>
+        _lastSaveFailure is { } failedAt && clock.GetElapsedTime(failedAt) < s_saveWarningDuration;
 
     public PlayerProgress? FindProgress(PlayerName player) => players.Book.FindProgress(player);
 
@@ -115,11 +119,11 @@ internal sealed class GameFlow(GameRules rules, IRandomSource random, PlayersSto
         try
         {
             players.Save();
-            LastSaveFailed = false;
+            _lastSaveFailure = null;
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {
-            LastSaveFailed = true;
+            _lastSaveFailure = clock.GetTimestamp();
         }
     }
 }

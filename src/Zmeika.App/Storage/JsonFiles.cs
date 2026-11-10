@@ -28,6 +28,14 @@ internal static class JsonFiles
 
         string temporaryPath = path + TemporarySuffix;
         File.WriteAllText(temporaryPath, JsonSerializer.Serialize(value, typeInfo));
-        File.Move(temporaryPath, path, overwrite: true);
+        try
+        {
+            File.Move(temporaryPath, path, overwrite: true);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            File.Delete(temporaryPath);
+            throw;
+        }
     }
 }

@@ -50,6 +50,9 @@ if (!console.HasRequiredSize)
     return WindowTooSmallExitCode;
 }
 
+CrashHandler.Install(console, AppContext.BaseDirectory);
+DebugHooks.ThrowIfCrashTestRequested(args);
+
 SettingsStore settings = SettingsStore.Load(AppContext.BaseDirectory, config.Theme);
 PlayersStore players = PlayersStore.Load(AppContext.BaseDirectory);
 

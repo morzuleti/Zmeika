@@ -36,6 +36,11 @@ internal static class HudPainter
         WriteControl(buffer, bottom - 4, "Left", controls.Left, theme);
         WriteControl(buffer, bottom - 3, "Right", controls.Right, theme);
         WriteControl(buffer, bottom - 2, "Pause", controls.Pause, theme);
+
+        if (model.Warning is { } warning)
+        {
+            buffer.Write(TextX, bottom - 1, Fit(warning, TextWidth), theme.Label);
+        }
     }
 
     private static void WriteControl(FrameBuffer buffer, int row, string direction, string key, HudTheme theme)
