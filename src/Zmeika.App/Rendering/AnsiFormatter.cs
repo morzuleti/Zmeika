@@ -9,39 +9,55 @@ internal static class AnsiFormatter
     private const string DefaultForeground = "\e[39m";
     private const string DefaultBackground = "\e[49m";
 
-    public static string Format(FrameBuffer buffer)
-    {
-        ArgumentNullException.ThrowIfNull(buffer);
+    public static string Format(FrameBuffer frame) => FormatChanges(frame, previous: null);
 
-        StringBuilder builder = new(buffer.Width * buffer.Height * 8);
-        for (var y = 0; y < buffer.Height; y++)
+    public static string FormatChanges(FrameBuffer frame, FrameBuffer? previous)
+    {
+        ArgumentNullException.ThrowIfNull(frame);
+
+        StringBuilder builder = new();
+        for (var y = 0; y < frame.Height; y++)
         {
-            builder.Append(CultureInfo.InvariantCulture, $"\e[{y + 1};1H");
-            AppendRow(builder, buffer, y);
+            AppendChangedRuns(builder, frame, previous, y);
         }
 
-        builder.Append(Reset);
+        if (builder.Length > 0)
+        {
+            builder.Append(Reset);
+        }
+
         return builder.ToString();
     }
 
-    private static void AppendRow(StringBuilder builder, FrameBuffer buffer, int y)
+    private static void AppendChangedRuns(StringBuilder builder, FrameBuffer frame, FrameBuffer? previous, int y)
     {
-        Cell? previous = null;
-        for (var x = 0; x < buffer.Width; x++)
+        Cell? last = null;
+        for (var x = 0; x < frame.Width; x++)
         {
-            Cell cell = buffer[x, y];
-            if (previous is null || previous.Value.Foreground != cell.Foreground)
+            Cell cell = frame[x, y];
+            if (previous is not null && previous[x, y] == cell)
+            {
+                last = null;
+                continue;
+            }
+
+            if (last is null)
+            {
+                builder.Append(CultureInfo.InvariantCulture, $"\e[{y + 1};{x + 1}H");
+            }
+
+            if (last is null || last.Value.Foreground != cell.Foreground)
             {
                 AppendForeground(builder, cell.Foreground);
             }
 
-            if (previous is null || previous.Value.Background != cell.Background)
+            if (last is null || last.Value.Background != cell.Background)
             {
                 AppendBackground(builder, cell.Background);
             }
 
             builder.Append(cell.Glyph);
-            previous = cell;
+            last = cell;
         }
     }
 

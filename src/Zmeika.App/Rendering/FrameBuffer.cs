@@ -32,6 +32,18 @@ internal sealed class FrameBuffer
         }
     }
 
+    public void CopyFrom(FrameBuffer source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        if (source.Width != Width || source.Height != Height)
+        {
+            throw new ArgumentException("Frame buffers must have the same size.", nameof(source));
+        }
+
+        Array.Copy(source._cells, _cells, _cells.Length);
+    }
+
     public void Put(int x, int y, char glyph, Rgb? foreground = null, Rgb? background = null)
     {
         if (Contains(x, y))

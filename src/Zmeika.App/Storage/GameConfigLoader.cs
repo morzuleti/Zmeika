@@ -22,7 +22,7 @@ internal static class GameConfigLoader
         try
         {
             GameConfigDto document = Parse(json);
-            return new GameConfig(document, ThemeFactory.Create(document));
+            return new GameConfig(document, ThemeFactory.Create(document), RulesFactory.Create(document));
         }
         catch (Exception exception) when (exception is JsonException or ConfigException)
         {

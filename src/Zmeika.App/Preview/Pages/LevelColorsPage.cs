@@ -30,16 +30,16 @@ internal sealed class LevelColorsPage(Theme theme) : IPreviewPage
 
     private void DrawBlock(FrameBuffer buffer, int x, int y, LevelColorScheme scheme)
     {
-        FieldSketch.DrawField(buffer, x, y, SampleColumns, SampleRows, scheme);
+        FieldPainter.DrawGrid(buffer, x, y, SampleColumns, SampleRows, scheme);
         FieldSketch.DrawHorizontalSnake(buffer, x, y, 1, 1, theme.DefaultSkin, theme.DefaultSnakeColor.Color, scheme);
         int appleCount = Math.Min(theme.AppleColors.Count, s_appleCells.Length);
         for (var i = 0; i < appleCount; i++)
         {
             (int column, int row) = s_appleCells[i];
-            FieldSketch.DrawCell(buffer, x, y, column, row, Glyphs.Apple, theme.AppleColors[i], scheme);
+            FieldPainter.DrawCell(buffer, x, y, column, row, Glyphs.Apple, theme.AppleColors[i], scheme);
         }
 
-        FieldSketch.DrawCell(buffer, x, y, 0, 2, Glyphs.Heart, theme.Heart, scheme);
+        FieldPainter.DrawCell(buffer, x, y, 0, 2, Glyphs.Heart, theme.Heart, scheme);
 
         int labelX = x + LabelOffsetX;
         buffer.Write(labelX, y, string.Create(CultureInfo.InvariantCulture, $"Level {scheme.Level}: {scheme.Name}"), scheme.Wall);

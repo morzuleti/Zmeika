@@ -38,15 +38,8 @@ internal sealed class GlyphPreview
             return;
         }
 
-        ConsoleWindow.Configure(ScreenLayout.Width, ScreenLayout.Height);
-        try
-        {
-            RunInteractive();
-        }
-        finally
-        {
-            ConsoleWindow.Restore();
-        }
+        using ConsoleSession console = ConsoleSession.Open(ScreenLayout.Width, ScreenLayout.Height);
+        RunInteractive();
     }
 
     private void RunInteractive()

@@ -21,7 +21,7 @@ internal sealed class LevelScreenPage(Theme theme) : IPreviewPage
         SnakeSkin skin = theme.DefaultSkin;
         Rgb snakeColor = theme.DefaultSnakeColor.Color;
 
-        FieldSketch.DrawField(buffer, ScreenLayout.FieldX, ScreenLayout.FieldY, ScreenLayout.FieldColumns, ScreenLayout.FieldRows, scheme);
+        FieldPainter.DrawGrid(buffer, ScreenLayout.FieldX, ScreenLayout.FieldY, ScreenLayout.FieldColumns, ScreenLayout.FieldRows, scheme);
         DrawFieldObject(buffer, 29, 26, skin.Head, snakeColor, scheme);
         DrawFieldObject(buffer, 29, 27, skin.Body, snakeColor, scheme);
         DrawFieldObject(buffer, 29, 28, skin.Body, snakeColor, scheme);
@@ -45,7 +45,7 @@ internal sealed class LevelScreenPage(Theme theme) : IPreviewPage
     }
 
     private static void DrawFieldObject(FrameBuffer buffer, int column, int row, char glyph, Rgb color, LevelColorScheme scheme) =>
-        FieldSketch.DrawCell(buffer, ScreenLayout.FieldX, ScreenLayout.FieldY, column, row, glyph, color, scheme);
+        FieldPainter.DrawCell(buffer, ScreenLayout.FieldX, ScreenLayout.FieldY, column, row, glyph, color, scheme);
 
     private void DrawHud(FrameBuffer buffer)
     {
