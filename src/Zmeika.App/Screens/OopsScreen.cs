@@ -1,4 +1,5 @@
 using System.Globalization;
+using Zmeika.App.Audio;
 using Zmeika.App.Input;
 using Zmeika.App.Rendering;
 using Zmeika.Core.Gameplay;
@@ -9,6 +10,10 @@ internal sealed class OopsScreen(GameContext context, GameSession session) : ISc
 {
     private const int Height = 9;
     private static readonly string[] s_items = ["Retry"];
+
+    public void OnEnter() => context.Audio.PlayJingle(SoundEffect.LifeLost);
+
+    public void OnLeave() => context.Audio.StopMusic();
 
     public void HandleKey(ConsoleKeyInfo key)
     {

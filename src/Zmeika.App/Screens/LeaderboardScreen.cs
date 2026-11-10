@@ -1,3 +1,4 @@
+using Zmeika.App.Audio;
 using Zmeika.App.Input;
 using Zmeika.App.Rendering;
 using Zmeika.Core.Gameplay;
@@ -19,15 +20,17 @@ internal sealed class LeaderboardScreen : IScreen
     private readonly GameSession _session;
     private readonly IScreen? _returnTo;
     private readonly IReadOnlyList<string> _items;
+    private readonly SoundEffect? _melody;
     private readonly MenuSelection _selection;
     private IReadOnlyList<LeaderboardRow> _rows = [];
 
-    private LeaderboardScreen(GameContext context, GameSession session, IScreen? returnTo, IReadOnlyList<string> items)
+    private LeaderboardScreen(GameContext context, GameSession session, IScreen? returnTo, IReadOnlyList<string> items, SoundEffect? melody)
     {
         _context = context;
         _session = session;
         _returnTo = returnTo;
         _items = items;
+        _melody = melody;
         _selection = new MenuSelection(items.Count);
     }
 
@@ -36,8 +39,9 @@ internal sealed class LeaderboardScreen : IScreen
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(session);
 
-        IReadOnlyList<string> items = isWin ? [NewGame, ChangePlayer, Exit] : [Retry, NewGame, ChangePlayer, Exit];
-        return new LeaderboardScreen(context, session, returnTo: null, items);
+        return isWin
+            ? new LeaderboardScreen(context, session, returnTo: null, [NewGame, ChangePlayer, Exit], melody: null)
+            : new LeaderboardScreen(context, session, returnTo: null, [Retry, NewGame, ChangePlayer, Exit], SoundEffect.GameOver);
     }
 
     public static LeaderboardScreen FromMenu(GameContext context, GameSession session, IScreen returnTo)
@@ -46,10 +50,25 @@ internal sealed class LeaderboardScreen : IScreen
         ArgumentNullException.ThrowIfNull(session);
         ArgumentNullException.ThrowIfNull(returnTo);
 
-        return new LeaderboardScreen(context, session, returnTo, [Back]);
+        return new LeaderboardScreen(context, session, returnTo, [Back], melody: null);
     }
 
-    public void OnEnter() => _rows = _context.Flow.Leaderboard(_context.Interface.LeaderboardSize);
+    public void OnEnter()
+    {
+        _rows = _context.Flow.Leaderboard(_context.Interface.LeaderboardSize);
+        if (_melody is { } melody)
+        {
+            _context.Audio.PlayJingle(melody);
+        }
+    }
+
+    public void OnLeave()
+    {
+        if (_melody is not null)
+        {
+            _context.Audio.StopMusic();
+        }
+    }
 
     public void HandleKey(ConsoleKeyInfo key)
     {

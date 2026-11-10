@@ -10,7 +10,11 @@ internal sealed class GetReadyScreen(GameContext context, GameSession session) :
 
     private TimeSpan _elapsed;
 
-    public void OnEnter() => context.Flow.OnLevelStarted(session);
+    public void OnEnter()
+    {
+        context.Flow.OnLevelStarted(session);
+        context.Audio.PlayLevelMusic(session.Level);
+    }
 
     public void HandleKey(ConsoleKeyInfo key)
     {

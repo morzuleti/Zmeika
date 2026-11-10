@@ -1,3 +1,4 @@
+using Zmeika.App.Audio;
 using Zmeika.App.Rendering;
 
 namespace Zmeika.App.Screens;
@@ -25,6 +26,10 @@ internal sealed class IntroScreen(GameContext context) : IScreen
     private TimeSpan FallTime => TimeSpan.FromSeconds((TargetY - StartY) / FallRowsPerSecond);
 
     private TimeSpan LetterAnimationTime => FallTime + s_bounces.Aggregate(TimeSpan.Zero, (total, bounce) => total + bounce.Duration);
+
+    public void OnEnter() => context.Audio.PlayJingle(SoundEffect.Intro);
+
+    public void OnLeave() => context.Audio.StopMusic();
 
     public void HandleKey(ConsoleKeyInfo key)
     {

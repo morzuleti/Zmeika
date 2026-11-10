@@ -1,3 +1,4 @@
+using Zmeika.App.Audio;
 using Zmeika.App.Input;
 using Zmeika.App.Rendering;
 
@@ -7,11 +8,17 @@ internal sealed class FireworksScreen(
     FireworksSimulation fireworks,
     FireworksTheme theme,
     TimeSpan duration,
+    IAudio audio,
+    SoundEffect melody,
     Action<FrameBuffer> paintCaption,
     Action onFinished) : IScreen
 {
     private TimeSpan _elapsed;
     private bool _isFinished;
+
+    public void OnEnter() => audio.PlayJingle(melody);
+
+    public void OnLeave() => audio.StopMusic();
 
     public void HandleKey(ConsoleKeyInfo key)
     {

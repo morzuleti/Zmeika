@@ -30,13 +30,13 @@
   },
 
   "levels": [
-    { "apples": 10, "cellsPerSecond": 1.50, "music": "level-1.wav", "wall": "White",       "shadeA": "#380D0B", "shadeB": "#260907", "appleRadius": 8 },
-    { "apples": 16, "cellsPerSecond": 1.73, "music": "level-2.wav", "wall": "Orange",    "shadeA": "#382100", "shadeB": "#261600" },
-    { "apples": 22, "cellsPerSecond": 1.98, "music": "level-3.wav", "wall": "Yellow",    "shadeA": "#382F02", "shadeB": "#262002" },
-    { "apples": 28, "cellsPerSecond": 2.28, "music": "level-4.wav", "wall": "Green",     "shadeA": "#0B2C14", "shadeB": "#081E0D" },
-    { "apples": 34, "cellsPerSecond": 2.62, "music": "level-5.wav", "wall": "LightBlue", "shadeA": "#142C37", "shadeB": "#0E1E26" },
-    { "apples": 40, "cellsPerSecond": 3.02, "music": "level-6.wav", "wall": "Blue",      "shadeA": "#001B38", "shadeB": "#001226" },
-    { "apples": 46, "cellsPerSecond": 3.47, "music": "level-7.wav", "wall": "Violet",    "shadeA": "#271231", "shadeB": "#1A0C21" }
+    { "apples": 10, "cellsPerSecond": 1.50, "music": "FirstLevel.wav",  "wall": "White",       "shadeA": "#380D0B", "shadeB": "#260907", "appleRadius": 8 },
+    { "apples": 16, "cellsPerSecond": 1.73, "music": "SecondLevel.wav", "wall": "Orange",    "shadeA": "#382100", "shadeB": "#261600" },
+    { "apples": 22, "cellsPerSecond": 1.98, "music": "ThirdLevel.wav",  "wall": "Yellow",    "shadeA": "#382F02", "shadeB": "#262002" },
+    { "apples": 28, "cellsPerSecond": 2.28, "music": "ForthLevel.wav",  "wall": "Green",     "shadeA": "#0B2C14", "shadeB": "#081E0D" },
+    { "apples": 34, "cellsPerSecond": 2.62, "music": "FiveLevel.wav",   "wall": "LightBlue", "shadeA": "#142C37", "shadeB": "#0E1E26" },
+    { "apples": 40, "cellsPerSecond": 3.02, "music": "SixLevel.wav",    "wall": "Blue",      "shadeA": "#001B38", "shadeB": "#001226" },
+    { "apples": 46, "cellsPerSecond": 3.47, "music": "SevenLevel.wav",  "wall": "Violet",    "shadeA": "#271231", "shadeB": "#1A0C21" }
   ],
 
   "snake": {
@@ -112,13 +112,15 @@
     "musicVolume": 0.6,
     "effectsVolume": 1.0,
     "sounds": {
-      "apple": "apple.wav",
-      "heart": "heart.wav",
-      "biteTail": "bite-tail.wav",
-      "hitWall": "hit-wall.wav",
-      "levelComplete": "level-complete.wav",
-      "gameOver": "game-over.wav",
-      "victory": "victory.wav"
+      "intro": "Zastavka.wav",
+      "apple": "EatApple.wav",
+      "heart": "EatHeart.wav",
+      "biteTail": "EatSelf.wav",
+      "hitWall": "EatWall.wav",
+      "lifeLost": "LooseLevel.wav",
+      "levelComplete": "WinLevel.wav",
+      "gameOver": "LooseGame.wav",
+      "victory": "WinGame.wav"
     }
   }
 }

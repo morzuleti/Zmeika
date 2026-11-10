@@ -17,11 +17,13 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
 
     private readonly MenuSelection _selection = new(s_items.Length);
 
+    public void OnEnter() => context.Audio.PauseMusic();
+
     public void HandleKey(ConsoleKeyInfo key)
     {
         if (GameKeys.IsPause(key) || GameKeys.IsBack(key))
         {
-            context.Navigator.Show(resume);
+            ResumeGame();
             return;
         }
 
@@ -53,7 +55,7 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
         switch (item)
         {
             case ContinueItem:
-                context.Navigator.Show(resume);
+                ResumeGame();
                 break;
             case NewGameItem:
                 context.Navigator.Show(new GetReadyScreen(context, context.Flow.StartNewGameForCurrentPlayer()));
@@ -70,5 +72,11 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
             default:
                 throw new ArgumentOutOfRangeException(nameof(item), item, "Unknown menu item.");
         }
+    }
+
+    private void ResumeGame()
+    {
+        context.Audio.ResumeMusic();
+        context.Navigator.Show(resume);
     }
 }

@@ -19,10 +19,12 @@ internal static class AudioMapFactory
             [.. document.Levels.Select(level => Path.Combine(folder, level.Music))],
             new Dictionary<SoundEffect, string>
             {
+                [SoundEffect.Intro] = Path.Combine(folder, sounds.Intro),
                 [SoundEffect.Apple] = Path.Combine(folder, sounds.Apple),
                 [SoundEffect.Heart] = Path.Combine(folder, sounds.Heart),
                 [SoundEffect.BiteTail] = Path.Combine(folder, sounds.BiteTail),
                 [SoundEffect.HitWall] = Path.Combine(folder, sounds.HitWall),
+                [SoundEffect.LifeLost] = Path.Combine(folder, sounds.LifeLost),
                 [SoundEffect.LevelComplete] = Path.Combine(folder, sounds.LevelComplete),
                 [SoundEffect.GameOver] = Path.Combine(folder, sounds.GameOver),
                 [SoundEffect.Victory] = Path.Combine(folder, sounds.Victory),

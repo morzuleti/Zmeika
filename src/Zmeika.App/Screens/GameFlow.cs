@@ -1,10 +1,11 @@
+using Zmeika.App.Audio;
 using Zmeika.App.Storage;
 using Zmeika.Core.Gameplay;
 using Zmeika.Core.Players;
 
 namespace Zmeika.App.Screens;
 
-internal sealed class GameFlow(GameRules rules, IRandomSource random, PlayersStore players, TimeProvider clock)
+internal sealed class GameFlow(GameRules rules, IRandomSource random, PlayersStore players, IAudio audio, TimeProvider clock)
 {
     private static readonly TimeSpan s_saveWarningDuration = TimeSpan.FromSeconds(3);
 
@@ -79,6 +80,42 @@ internal sealed class GameFlow(GameRules rules, IRandomSource random, PlayersSto
         ArgumentNullException.ThrowIfNull(session);
         ArgumentNullException.ThrowIfNull(events);
 
+        foreach (GameEvent gameEvent in events)
+        {
+            PlaySound(gameEvent);
+        }
+
+        SaveProgress(session, events);
+    }
+
+    private static SoundEffect DeathSound(DeathCause cause) => cause switch
+    {
+        DeathCause.Wall => SoundEffect.HitWall,
+        DeathCause.Body => SoundEffect.BiteTail,
+        _ => throw new ArgumentOutOfRangeException(nameof(cause), cause, "Unknown death cause."),
+    };
+
+    private void PlaySound(GameEvent gameEvent)
+    {
+        switch (gameEvent)
+        {
+            case AppleEaten:
+                audio.PlayEffect(SoundEffect.Apple);
+                break;
+            case HeartEaten:
+                audio.PlayEffect(SoundEffect.Heart);
+                break;
+            case SnakeDied died:
+                audio.StopMusic();
+                audio.PlayEffect(DeathSound(died.Cause));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void SaveProgress(GameSession session, IReadOnlyList<GameEvent> events)
+    {
         if (_gameId is not { } gameId || events.Count == 0)
         {
             return;
