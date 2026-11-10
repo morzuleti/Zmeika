@@ -49,8 +49,7 @@ internal sealed class LevelScreen(GameContext context, GameSession session) : IS
         switch (session.Status)
         {
             case GameStatus.LevelCompleted:
-                session.AdvanceToNextLevel();
-                context.Navigator.Show(new GetReadyScreen(context, session));
+                context.Navigator.Show(new LevelCompleteScreen(context, session));
                 break;
             case GameStatus.Won:
                 context.Navigator.Show(LeaderboardScreen.AfterGame(context, session, isWin: true));

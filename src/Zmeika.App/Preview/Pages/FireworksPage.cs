@@ -29,7 +29,7 @@ internal sealed class FireworksPage(Theme theme) : IPreviewPage
         DrawBurst(buffer, 31, 9, _ => colors[3 % colors.Count]);
         DrawBurst(buffer, 21, 18, _ => colors[4 % colors.Count]);
         DrawRocket(buffer, 37, 22);
-        buffer.Write(2, 29, "Level complete, 5 s, one colour per burst", theme.Menu.Hint);
+        buffer.Write(2, 29, "Level complete, 15 s, one colour per burst", theme.Menu.Hint);
     }
 
     private void DrawGameComplete(FrameBuffer buffer)

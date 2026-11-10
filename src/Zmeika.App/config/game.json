@@ -23,7 +23,7 @@
     "heartLifetimeSeconds": 12,
     "heartBlinkSeconds": 2,
     "getReadySeconds": 3,
-    "levelFireworksSeconds": 5,
+    "levelFireworksSeconds": 15,
     "finalFireworksSeconds": 15,
     "leaderboardSize": 10,
     "maxNameLength": 18
