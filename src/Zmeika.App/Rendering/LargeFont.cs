@@ -39,14 +39,12 @@ internal sealed class LargeFont
         return width;
     }
 
-    public void Draw(FrameBuffer buffer, int x, int y, string text, IReadOnlyList<Rgb> letterColors)
+    public IReadOnlyList<LetterPlacement> Layout(string text)
     {
-        ArgumentNullException.ThrowIfNull(buffer);
         ArgumentNullException.ThrowIfNull(text);
-        ArgumentNullException.ThrowIfNull(letterColors);
 
-        int cursor = x;
-        var letterIndex = 0;
+        List<LetterPlacement> placements = [];
+        var cursor = 0;
         for (var i = 0; i < text.Length; i++)
         {
             if (text[i] == ' ')
@@ -55,22 +53,33 @@ internal sealed class LargeFont
                 continue;
             }
 
-            string[] pattern = _letters[text[i]];
-            DrawLetter(buffer, cursor, y, pattern, letterColors[letterIndex % letterColors.Count]);
-            letterIndex++;
-            cursor += pattern[0].Length;
+            placements.Add(new LetterPlacement(text[i], cursor));
+            cursor += _letters[text[i]][0].Length;
             if (NeedsLetterSpacing(text, i))
             {
                 cursor += LetterSpacing;
             }
         }
+
+        return placements;
     }
 
-    private static bool NeedsLetterSpacing(string text, int index) =>
-        index + 1 < text.Length && text[index] != ' ' && text[index + 1] != ' ';
-
-    private static void DrawLetter(FrameBuffer buffer, int x, int y, string[] pattern, Rgb color)
+    public void Draw(FrameBuffer buffer, int x, int y, string text, IReadOnlyList<Rgb> letterColors)
     {
+        ArgumentNullException.ThrowIfNull(letterColors);
+
+        IReadOnlyList<LetterPlacement> placements = Layout(text);
+        for (var i = 0; i < placements.Count; i++)
+        {
+            DrawLetter(buffer, x + placements[i].OffsetX, y, placements[i].Letter, letterColors[i % letterColors.Count]);
+        }
+    }
+
+    public void DrawLetter(FrameBuffer buffer, int x, int y, char letter, Rgb color)
+    {
+        ArgumentNullException.ThrowIfNull(buffer);
+
+        string[] pattern = _letters[letter];
         for (var row = 0; row < pattern.Length; row++)
         {
             for (var column = 0; column < pattern[row].Length; column++)
@@ -82,4 +91,7 @@ internal sealed class LargeFont
             }
         }
     }
+
+    private static bool NeedsLetterSpacing(string text, int index) =>
+        index + 1 < text.Length && text[index] != ' ' && text[index + 1] != ' ';
 }

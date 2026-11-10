@@ -60,5 +60,5 @@ GameHost host = new(console);
 SystemRandomSource random = new();
 GameFlow flow = new(config.Rules, random, players, TimeProvider.System);
 GameContext context = new(config.Theme, config.Timings, host, config.Interface, settings, flow);
-await host.RunAsync(new NameInputScreen(context)).ConfigureAwait(false);
+await host.RunAsync(new IntroScreen(context)).ConfigureAwait(false);
 return SuccessExitCode;
