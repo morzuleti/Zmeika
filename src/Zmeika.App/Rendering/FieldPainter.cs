@@ -5,6 +5,8 @@ namespace Zmeika.App.Rendering;
 
 internal static class FieldPainter
 {
+    private static readonly TimeSpan s_blinkHalfPeriod = TimeSpan.FromMilliseconds(250);
+
     public static void Paint(FrameBuffer buffer, LevelSession session, FieldStyle style)
     {
         ArgumentNullException.ThrowIfNull(session);
@@ -20,7 +22,7 @@ internal static class FieldPainter
         Rgb appleColor = style.AppleColors[apple.Variant % style.AppleColors.Count];
         DrawCell(buffer, X, Y, apple.Cell.X, apple.Cell.Y, Glyphs.Apple, appleColor, scheme);
 
-        if (session.Heart is { } heart)
+        if (session.Heart is { } heart && IsBlinkVisible(session.HeartBlinkElapsed))
         {
             DrawCell(buffer, X, Y, heart.X, heart.Y, Glyphs.Heart, style.Heart, scheme);
         }
@@ -66,4 +68,7 @@ internal static class FieldPainter
         buffer.Put(x, y, glyph, color, background);
         buffer.Put(x + 1, y, ' ', null, background);
     }
+
+    private static bool IsBlinkVisible(TimeSpan? blinkElapsed) =>
+        blinkElapsed is not { } elapsed || (long)(elapsed / s_blinkHalfPeriod) % 2 == 0;
 }

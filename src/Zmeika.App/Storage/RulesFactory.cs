@@ -17,6 +17,8 @@ internal static class RulesFactory
             gameplay.PointsPerApple,
             TimeSpan.FromSeconds(gameplay.HeartSpawnMinSeconds),
             TimeSpan.FromSeconds(gameplay.HeartSpawnMaxSeconds),
+            TimeSpan.FromSeconds(gameplay.HeartLifetimeSeconds),
+            TimeSpan.FromSeconds(gameplay.HeartBlinkSeconds),
             document.Objects.AppleColors.Count,
             [.. document.Levels.Select(level => new LevelRules(level.Apples, level.CellsPerSecond, level.AppleRadius))]);
 

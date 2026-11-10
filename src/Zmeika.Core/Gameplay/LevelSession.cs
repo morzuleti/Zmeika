@@ -39,6 +39,11 @@ public sealed class LevelSession
 
     public Position? Heart { get; private set; }
 
+    public TimeSpan HeartAge { get; private set; }
+
+    public TimeSpan? HeartBlinkElapsed =>
+        Heart is not null && HeartAge >= _rules.HeartLifetime ? HeartAge - _rules.HeartLifetime : null;
+
     public int ApplesEaten { get; private set; }
 
     public int ApplesRequired { get; }
@@ -85,8 +90,15 @@ public sealed class LevelSession
 
     private void AdvanceHeartTimer(TimeSpan elapsed, List<LevelEvent> events)
     {
-        if (Heart is not null)
+        if (Heart is { } current)
         {
+            HeartAge += elapsed;
+            if (HeartAge >= _rules.HeartLifetime + _rules.HeartBlink)
+            {
+                RemoveHeart();
+                events.Add(new HeartExpired(current));
+            }
+
             return;
         }
 
@@ -100,6 +112,7 @@ public sealed class LevelSession
         if (cell is { } heart)
         {
             Heart = heart;
+            HeartAge = TimeSpan.Zero;
             events.Add(new HeartAppeared(heart));
         }
     }
@@ -126,8 +139,7 @@ public sealed class LevelSession
 
         if (next == Heart)
         {
-            Heart = null;
-            _heartDelay = DrawHeartDelay();
+            RemoveHeart();
             events.Add(new HeartTaken(next));
         }
 
@@ -135,6 +147,13 @@ public sealed class LevelSession
         {
             EatApple(next, events);
         }
+    }
+
+    private void RemoveHeart()
+    {
+        Heart = null;
+        HeartAge = TimeSpan.Zero;
+        _heartDelay = DrawHeartDelay();
     }
 
     private void EatApple(Position cell, List<LevelEvent> events)

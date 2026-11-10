@@ -122,6 +122,9 @@ public sealed class GameSession
             case HeartAppeared heart:
                 events.Add(new HeartSpawned(heart.Cell));
                 break;
+            case HeartExpired heart:
+                events.Add(new HeartGone(heart.Cell));
+                break;
             case Crashed crash:
                 Die(crash.Cause, events);
                 break;

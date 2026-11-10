@@ -7,6 +7,8 @@ internal sealed record GameplayDto(
     int PointsPerApple,
     double HeartSpawnMinSeconds,
     double HeartSpawnMaxSeconds,
+    double HeartLifetimeSeconds,
+    double HeartBlinkSeconds,
     double GetReadySeconds,
     double LevelFireworksSeconds,
     double FinalFireworksSeconds,

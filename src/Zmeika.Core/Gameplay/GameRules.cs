@@ -10,6 +10,8 @@ public sealed record GameRules(
     int PointsPerApple,
     TimeSpan HeartSpawnMin,
     TimeSpan HeartSpawnMax,
+    TimeSpan HeartLifetime,
+    TimeSpan HeartBlink,
     int AppleVariantCount,
     IReadOnlyList<LevelRules> Levels)
 {
@@ -25,6 +27,8 @@ public sealed record GameRules(
         Require(PointsPerApple >= 0, "pointsPerApple must not be negative.");
         Require(HeartSpawnMin > TimeSpan.Zero, "heartSpawnMinSeconds must be positive.");
         Require(HeartSpawnMax >= HeartSpawnMin, "heartSpawnMaxSeconds must not be less than heartSpawnMinSeconds.");
+        Require(HeartLifetime > TimeSpan.Zero, "heartLifetimeSeconds must be positive.");
+        Require(HeartBlink >= TimeSpan.Zero, "heartBlinkSeconds must not be negative.");
         Require(AppleVariantCount >= 1, "at least one apple colour is required.");
         Require(Levels.Count >= 1, "at least one level is required.");
 
