@@ -32,10 +32,7 @@ internal sealed class LargeLettersPage(Theme theme) : IPreviewPage
 
     private void DrawCountdown(FrameBuffer buffer, int y)
     {
-        string countdown = $"3 {Glyphs.MiddleDot} 2 {Glyphs.MiddleDot} 1";
-        int x = ScreenLayout.CenterX(0, buffer.Width, countdown.Length);
-        buffer.Write(x, y, countdown, theme.GetReady.CountdownOther);
-        buffer.Put(x + 4, y, '2', theme.GetReady.CountdownCurrent);
+        CountdownPainter.Paint(buffer, 0, buffer.Width, y, total: 3, current: 2, theme.GetReady);
         buffer.Write(2, y, "Countdown (2 is current)", theme.Menu.Hint);
     }
 }

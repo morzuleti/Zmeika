@@ -4,4 +4,4 @@ using Zmeika.Core.Gameplay;
 
 namespace Zmeika.App.Storage;
 
-internal sealed record GameConfig(GameConfigDto Document, Theme Theme, GameRules Rules);
+internal sealed record GameConfig(GameConfigDto Document, Theme Theme, GameRules Rules, GameTimings Timings);

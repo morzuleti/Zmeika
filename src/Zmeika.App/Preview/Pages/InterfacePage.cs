@@ -6,7 +6,6 @@ namespace Zmeika.App.Preview.Pages;
 internal sealed class InterfacePage(Theme theme) : IPreviewPage
 {
     private const int DialogWidth = 24;
-    private const int ItemOffsetX = 5;
 
     private MenuTheme Menu => theme.Menu;
 
@@ -21,29 +20,13 @@ internal sealed class InterfacePage(Theme theme) : IPreviewPage
         DrawKeyNames(buffer, 50, 15);
     }
 
-    private void DrawDialog(FrameBuffer buffer, int x, int y, int height, string title)
-    {
-        FrameDrawing.Draw(buffer, x, y, DialogWidth, height, FrameStyle.Double, Menu.Frame);
-        buffer.Write(ScreenLayout.CenterX(x, DialogWidth, title.Length), y + 1, title, Menu.Title);
-    }
-
-    private void DrawItem(FrameBuffer buffer, int x, int y, string text, bool isSelected)
-    {
-        if (isSelected)
-        {
-            buffer.Put(x + ItemOffsetX - 2, y, Glyphs.MenuMarker, Menu.Marker);
-        }
-
-        buffer.Write(x + ItemOffsetX, y, text, isSelected ? Menu.SelectedItem : Menu.Item);
-    }
+    private void DrawDialog(FrameBuffer buffer, int x, int y, int height, string title) =>
+        DialogPainter.Paint(buffer, x, y, DialogWidth, height, title, Menu);
 
     private void DrawMainMenu(FrameBuffer buffer, int x, int y)
     {
         DrawDialog(buffer, x, y, 10, "MENU");
-        DrawItem(buffer, x, y + 3, "Continue", isSelected: true);
-        DrawItem(buffer, x, y + 4, "New game", isSelected: false);
-        DrawItem(buffer, x, y + 5, "Settings", isSelected: false);
-        DrawItem(buffer, x, y + 6, "Exit", isSelected: false);
+        MenuPainter.Paint(buffer, x, y + 3, ["Continue", "New game", "Settings", "Exit"], 0, Menu);
         buffer.Write(x + 2, y + 8, $"{Glyphs.ArrowUp}{Glyphs.ArrowDown} choose  Enter ok", Menu.Hint);
     }
 
@@ -59,8 +42,7 @@ internal sealed class InterfacePage(Theme theme) : IPreviewPage
     {
         DrawDialog(buffer, x, y, 10, "WELCOME BACK");
         buffer.Write(ScreenLayout.CenterX(x, DialogWidth, 5), y + 2, "Masha", Menu.PlayerName);
-        DrawItem(buffer, x, y + 4, "Continue", isSelected: true);
-        DrawItem(buffer, x, y + 5, "New game", isSelected: false);
+        MenuPainter.Paint(buffer, x, y + 4, ["Continue", "New game"], 0, Menu);
         buffer.Write(x + 2, y + 8, $"{Glyphs.ArrowUp}{Glyphs.ArrowDown} choose  Enter ok", Menu.Hint);
     }
 

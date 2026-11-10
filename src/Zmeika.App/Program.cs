@@ -1,5 +1,6 @@
 using Zmeika.App.ConsoleHost;
 using Zmeika.App.Hosting;
+using Zmeika.App.Input;
 using Zmeika.App.Preview;
 using Zmeika.App.Rendering;
 using Zmeika.App.Screens;
@@ -7,6 +8,7 @@ using Zmeika.App.Storage;
 using Zmeika.Core.Gameplay;
 
 const string PreviewFlag = "--preview";
+const string PlaceholderPlayer = "Player";
 const int SuccessExitCode = 0;
 const int ConfigErrorExitCode = 1;
 const int NoConsoleExitCode = 3;
@@ -51,6 +53,7 @@ if (!console.HasRequiredSize)
 }
 
 GameHost host = new(console);
-LevelScreen level = new(config.Rules, config.Theme, new SystemRandomSource(), host);
-await host.RunAsync(level).ConfigureAwait(false);
+SystemRandomSource random = new();
+GameContext context = new(config.Rules, config.Theme, config.Timings, random, host, KeyBindings.Default, PlaceholderPlayer);
+await host.RunAsync(new GetReadyScreen(context, GameSession.NewGame(config.Rules, random))).ConfigureAwait(false);
 return SuccessExitCode;

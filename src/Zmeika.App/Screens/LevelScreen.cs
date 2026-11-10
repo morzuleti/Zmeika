@@ -5,98 +5,114 @@ using Zmeika.Core.Model;
 
 namespace Zmeika.App.Screens;
 
-internal sealed class LevelScreen : IScreen
+internal sealed class LevelScreen(GameContext context, GameSession session) : IScreen
 {
-    private const string PlaceholderPlayer = "Player";
+    private static readonly TimeSpan s_deathPause = TimeSpan.FromSeconds(1);
 
-    private readonly Theme _theme;
-    private readonly INavigator _navigator;
-    private readonly KeyBindings _keys = KeyBindings.Default;
-    private readonly GameSession _session;
-
-    public LevelScreen(GameRules rules, Theme theme, IRandomSource random, INavigator navigator)
-    {
-        ArgumentNullException.ThrowIfNull(theme);
-        ArgumentNullException.ThrowIfNull(navigator);
-
-        _theme = theme;
-        _navigator = navigator;
-        _session = GameSession.NewGame(rules, random);
-    }
+    private TimeSpan? _deathPauseLeft;
+    private string? _finalMessage;
 
     public void HandleKey(ConsoleKeyInfo key)
     {
-        if (IsExitKey(key))
+        if (_finalMessage is not null)
         {
-            _navigator.Exit();
+            if (GameKeys.IsBack(key))
+            {
+                context.Navigator.Exit();
+            }
+
             return;
         }
 
-        if (_keys.TryGetDirection(key.Key, out Direction direction))
+        if (_deathPauseLeft is not null)
         {
-            _session.QueueTurn(direction);
+            return;
+        }
+
+        if (GameKeys.IsPause(key))
+        {
+            context.Navigator.Show(new PauseMenuScreen(context, session, this));
+            return;
+        }
+
+        if (context.Keys.TryGetDirection(key.Key, out Direction direction))
+        {
+            session.QueueTurn(direction);
         }
     }
 
     public void Update(TimeSpan elapsed)
     {
-        _session.Update(elapsed);
-
-        switch (_session.Status)
+        if (_finalMessage is not null)
         {
-            case GameStatus.Died:
-                _session.RestartLevel();
-                break;
+            return;
+        }
+
+        if (_deathPauseLeft is { } left)
+        {
+            AdvanceDeathPause(left - elapsed);
+            return;
+        }
+
+        IReadOnlyList<GameEvent> events = session.Update(elapsed);
+        if (events.OfType<SnakeDied>().Any())
+        {
+            _deathPauseLeft = s_deathPause;
+            return;
+        }
+
+        switch (session.Status)
+        {
             case GameStatus.LevelCompleted:
-                _session.AdvanceToNextLevel();
+                session.AdvanceToNextLevel();
+                context.Navigator.Show(new GetReadyScreen(context, session));
+                break;
+            case GameStatus.Won:
+                _finalMessage = "YOU WIN!";
                 break;
             case GameStatus.Playing:
+            case GameStatus.Died:
             case GameStatus.GameOver:
-            case GameStatus.Won:
                 break;
             default:
-                throw new InvalidOperationException($"Unknown game status {_session.Status}.");
+                throw new InvalidOperationException($"Unknown game status {session.Status}.");
         }
     }
 
     public void Paint(FrameBuffer buffer)
     {
-        LevelSession level = _session.Current;
-        FieldStyle style = new(
-            _theme.Levels[level.Level - 1],
-            _theme.DefaultSkin,
-            _theme.DefaultSnakeColor.Color,
-            _theme.AppleColors,
-            _theme.Heart);
-        FieldPainter.Paint(buffer, level, style);
-
-        HudModel hud = new(
-            level.Level,
-            _session.Rules.LevelCount,
-            PlaceholderPlayer,
-            _session.Lives,
-            level.ApplesEaten,
-            level.ApplesRequired,
-            _session.Score,
-            KeyNames.ForHud(_keys));
-        HudPainter.Paint(buffer, hud, _theme.Hud);
-
-        if (_session.Status is GameStatus.GameOver or GameStatus.Won)
+        LevelView.Paint(buffer, context, session);
+        if (_finalMessage is not null)
         {
-            PaintFinalMessage(buffer, _session.Status == GameStatus.Won ? "YOU WIN!" : "GAME OVER");
+            PaintFinalMessage(buffer, _finalMessage);
         }
     }
 
-    private static bool IsExitKey(ConsoleKeyInfo key) =>
-        key.Key == ConsoleKey.Escape
-        || (key.Key == ConsoleKey.C && key.Modifiers.HasFlag(ConsoleModifiers.Control));
+    private void AdvanceDeathPause(TimeSpan left)
+    {
+        if (left > TimeSpan.Zero)
+        {
+            _deathPauseLeft = left;
+            return;
+        }
+
+        _deathPauseLeft = null;
+        if (session.Status == GameStatus.GameOver)
+        {
+            _finalMessage = "GAME OVER";
+            return;
+        }
+
+        context.Navigator.Show(new OopsScreen(context, session));
+    }
 
     private void PaintFinalMessage(FrameBuffer buffer, string title)
     {
         const string Hint = "Esc exit";
         int centerRow = ScreenLayout.FieldY + (ScreenLayout.FieldRows / 2);
+        MenuTheme menu = context.Theme.Menu;
 
-        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, ScreenLayout.FieldWidth, title.Length), centerRow, title, _theme.Menu.Title);
-        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, ScreenLayout.FieldWidth, Hint.Length), centerRow + 2, Hint, _theme.Menu.Hint);
+        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, ScreenLayout.FieldWidth, title.Length), centerRow, title, menu.Title);
+        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, ScreenLayout.FieldWidth, Hint.Length), centerRow + 2, Hint, menu.Hint);
     }
 }

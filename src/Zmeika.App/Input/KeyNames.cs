@@ -13,6 +13,7 @@ internal static class KeyNames
         [ConsoleKey.LeftArrow] = Glyphs.ArrowLeft.ToString(),
         [ConsoleKey.RightArrow] = Glyphs.ArrowRight.ToString(),
         [ConsoleKey.Spacebar] = "Space",
+        [ConsoleKey.Escape] = "Esc",
     }.ToFrozenDictionary();
 
     public static HudControls ForHud(KeyBindings keys)
@@ -24,7 +25,7 @@ internal static class KeyNames
             Display(keys.Down),
             Display(keys.Left),
             Display(keys.Right),
-            Display(ConsoleKey.Spacebar));
+            $"{Display(ConsoleKey.Spacebar)}/{Display(ConsoleKey.Escape)}");
     }
 
     public static string Display(ConsoleKey key)
