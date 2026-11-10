@@ -160,17 +160,21 @@ public sealed class LevelSession
 
     private Apple PlaceApple()
     {
-        Position cell = PickFreeCell(excluded: null)
+        Position cell = PickFreeCell(excluded: null, _levelRules.AppleRadius)
+            ?? PickFreeCell(excluded: null)
             ?? throw new InvalidOperationException("There is no free cell for a new apple.");
         return new Apple(cell, _random.NextIndex(_rules.AppleVariantCount));
     }
 
-    private Position? PickFreeCell(Position? excluded)
+    private Position? PickFreeCell(Position? excluded, int? maxDistanceFromHead = null)
     {
+        Position head = Snake.Head;
         List<Position> free = [];
         foreach (Position cell in Field.AllCells())
         {
-            if (cell != excluded && cell != Heart && !Snake.Occupies(cell))
+            bool isNearEnough = maxDistanceFromHead is not { } radius
+                || Math.Abs(cell.X - head.X) + Math.Abs(cell.Y - head.Y) <= radius;
+            if (isNearEnough && cell != excluded && cell != Heart && !Snake.Occupies(cell))
             {
                 free.Add(cell);
             }

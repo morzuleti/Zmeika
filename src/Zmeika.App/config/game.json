@@ -28,13 +28,13 @@
   },
 
   "levels": [
-    { "apples": 10, "cellsPerSecond": 1.00, "music": "level-1.wav", "wall": "Red",       "shadeA": "#380D0B", "shadeB": "#260907" },
-    { "apples": 20, "cellsPerSecond": 1.15, "music": "level-2.wav", "wall": "Orange",    "shadeA": "#382100", "shadeB": "#261600" },
-    { "apples": 30, "cellsPerSecond": 1.32, "music": "level-3.wav", "wall": "Yellow",    "shadeA": "#382F02", "shadeB": "#262002" },
-    { "apples": 40, "cellsPerSecond": 1.52, "music": "level-4.wav", "wall": "Green",     "shadeA": "#0B2C14", "shadeB": "#081E0D" },
-    { "apples": 50, "cellsPerSecond": 1.75, "music": "level-5.wav", "wall": "LightBlue", "shadeA": "#142C37", "shadeB": "#0E1E26" },
-    { "apples": 60, "cellsPerSecond": 2.01, "music": "level-6.wav", "wall": "Blue",      "shadeA": "#001B38", "shadeB": "#001226" },
-    { "apples": 70, "cellsPerSecond": 2.31, "music": "level-7.wav", "wall": "Violet",    "shadeA": "#271231", "shadeB": "#1A0C21" }
+    { "apples": 10, "cellsPerSecond": 1.50, "music": "level-1.wav", "wall": "Red",       "shadeA": "#380D0B", "shadeB": "#260907", "appleRadius": 8 },
+    { "apples": 20, "cellsPerSecond": 1.73, "music": "level-2.wav", "wall": "Orange",    "shadeA": "#382100", "shadeB": "#261600" },
+    { "apples": 30, "cellsPerSecond": 1.98, "music": "level-3.wav", "wall": "Yellow",    "shadeA": "#382F02", "shadeB": "#262002" },
+    { "apples": 40, "cellsPerSecond": 2.28, "music": "level-4.wav", "wall": "Green",     "shadeA": "#0B2C14", "shadeB": "#081E0D" },
+    { "apples": 50, "cellsPerSecond": 2.62, "music": "level-5.wav", "wall": "LightBlue", "shadeA": "#142C37", "shadeB": "#0E1E26" },
+    { "apples": 60, "cellsPerSecond": 3.02, "music": "level-6.wav", "wall": "Blue",      "shadeA": "#001B38", "shadeB": "#001226" },
+    { "apples": 70, "cellsPerSecond": 3.47, "music": "level-7.wav", "wall": "Violet",    "shadeA": "#271231", "shadeB": "#1A0C21" }
   ],
 
   "snake": {

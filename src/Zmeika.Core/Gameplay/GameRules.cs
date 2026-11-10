@@ -39,6 +39,9 @@ public sealed record GameRules(
             Require(
                 double.IsFinite(level.CellsPerSecond) && level.CellsPerSecond > 0,
                 $"{path}.cellsPerSecond must be a positive number.");
+            Require(
+                level.AppleRadius is null or >= 1,
+                $"{path}.appleRadius must be at least 1 when set.");
         }
     }
 

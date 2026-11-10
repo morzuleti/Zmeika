@@ -6,4 +6,5 @@ internal sealed record LevelDto(
     string Music,
     string Wall,
     string ShadeA,
-    string ShadeB);
+    string ShadeB,
+    int? AppleRadius = null);
