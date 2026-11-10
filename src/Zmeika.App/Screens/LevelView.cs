@@ -28,7 +28,7 @@ internal static class LevelView
         HudModel hud = new(
             level.Level,
             session.Rules.LevelCount,
-            context.PlayerName,
+            context.Flow.Player?.Value ?? string.Empty,
             session.Lives,
             level.ApplesEaten,
             level.ApplesRequired,

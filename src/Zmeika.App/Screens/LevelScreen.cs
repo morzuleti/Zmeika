@@ -55,6 +55,7 @@ internal sealed class LevelScreen(GameContext context, GameSession session) : IS
         }
 
         IReadOnlyList<GameEvent> events = session.Update(elapsed);
+        context.Flow.OnEvents(session, events);
         if (events.OfType<SnakeDied>().Any())
         {
             _deathPauseLeft = s_deathPause;

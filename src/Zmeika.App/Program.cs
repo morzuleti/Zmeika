@@ -7,7 +7,6 @@ using Zmeika.App.Storage;
 using Zmeika.Core.Gameplay;
 
 const string PreviewFlag = "--preview";
-const string PlaceholderPlayer = "Player";
 const int SuccessExitCode = 0;
 const int ConfigErrorExitCode = 1;
 const int NoConsoleExitCode = 3;
@@ -56,6 +55,7 @@ PlayersStore players = PlayersStore.Load(AppContext.BaseDirectory);
 
 GameHost host = new(console);
 SystemRandomSource random = new();
-GameContext context = new(config.Rules, config.Theme, config.Timings, random, host, settings.Current, players, PlaceholderPlayer);
-await host.RunAsync(new GetReadyScreen(context, GameSession.NewGame(config.Rules, random))).ConfigureAwait(false);
+GameFlow flow = new(config.Rules, random, players, TimeProvider.System);
+GameContext context = new(config.Theme, config.Timings, host, config.Interface, settings.Current, flow);
+await host.RunAsync(new NameInputScreen(context)).ConfigureAwait(false);
 return SuccessExitCode;

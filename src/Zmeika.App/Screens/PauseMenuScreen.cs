@@ -64,7 +64,7 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
                 context.Navigator.Show(resume);
                 break;
             case NewGameItem:
-                context.Navigator.Show(new GetReadyScreen(context, GameSession.NewGame(context.Rules, context.Random)));
+                context.Navigator.Show(new GetReadyScreen(context, context.Flow.StartNewGameForCurrentPlayer()));
                 break;
             case SettingsItem:
                 _settingsHintLeft = s_hintDuration;
