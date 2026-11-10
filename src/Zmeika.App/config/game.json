@@ -28,7 +28,7 @@
   },
 
   "levels": [
-    { "apples": 10, "cellsPerSecond": 1.50, "music": "level-1.wav", "wall": "Red",       "shadeA": "#380D0B", "shadeB": "#260907", "appleRadius": 8 },
+    { "apples": 10, "cellsPerSecond": 1.50, "music": "level-1.wav", "wall": "White",       "shadeA": "#380D0B", "shadeB": "#260907", "appleRadius": 8 },
     { "apples": 20, "cellsPerSecond": 1.73, "music": "level-2.wav", "wall": "Orange",    "shadeA": "#382100", "shadeB": "#261600" },
     { "apples": 30, "cellsPerSecond": 1.98, "music": "level-3.wav", "wall": "Yellow",    "shadeA": "#382F02", "shadeB": "#262002" },
     { "apples": 40, "cellsPerSecond": 2.28, "music": "level-4.wav", "wall": "Green",     "shadeA": "#0B2C14", "shadeB": "#081E0D" },
