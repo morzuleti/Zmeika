@@ -1,0 +1,122 @@
+{
+  "colors": {
+    "Red": "#FF3B30",
+    "Orange": "#FF9500",
+    "Yellow": "#FFD60A",
+    "Green": "#34C759",
+    "LightBlue": "#5AC8FA",
+    "Blue": "#007AFF",
+    "Violet": "#AF52DE",
+    "Pink": "#FF2D55",
+    "Cyan": "#40E0FF",
+    "White": "#FFFFFF",
+    "Gray": "#A0A0A0"
+  },
+
+  "gameplay": {
+    "initialLives": 3,
+    "maxLives": 9,
+    "initialBodyLength": 3,
+    "pointsPerApple": 50,
+    "heartSpawnMinSeconds": 15,
+    "heartSpawnMaxSeconds": 45,
+    "getReadySeconds": 3,
+    "levelFireworksSeconds": 5,
+    "finalFireworksSeconds": 15,
+    "leaderboardSize": 10,
+    "maxNameLength": 18
+  },
+
+  "levels": [
+    { "apples": 10, "cellsPerSecond": 1.00, "music": "level-1.wav", "wall": "Red",       "shadeA": "#380D0B", "shadeB": "#260907" },
+    { "apples": 20, "cellsPerSecond": 1.15, "music": "level-2.wav", "wall": "Orange",    "shadeA": "#382100", "shadeB": "#261600" },
+    { "apples": 30, "cellsPerSecond": 1.32, "music": "level-3.wav", "wall": "Yellow",    "shadeA": "#382F02", "shadeB": "#262002" },
+    { "apples": 40, "cellsPerSecond": 1.52, "music": "level-4.wav", "wall": "Green",     "shadeA": "#0B2C14", "shadeB": "#081E0D" },
+    { "apples": 50, "cellsPerSecond": 1.75, "music": "level-5.wav", "wall": "LightBlue", "shadeA": "#142C37", "shadeB": "#0E1E26" },
+    { "apples": 60, "cellsPerSecond": 2.01, "music": "level-6.wav", "wall": "Blue",      "shadeA": "#001B38", "shadeB": "#001226" },
+    { "apples": 70, "cellsPerSecond": 2.31, "music": "level-7.wav", "wall": "Violet",    "shadeA": "#271231", "shadeB": "#1A0C21" }
+  ],
+
+  "snake": {
+    "skins": [
+      { "name": "Solid",   "head": "☻", "body": "●" },
+      { "name": "Classic", "head": "☺", "body": "○" },
+      { "name": "Square",  "head": "■", "body": "□" },
+      { "name": "Letters", "head": "O", "body": "o" }
+    ],
+    "colors": ["White", "Cyan", "LightBlue", "Yellow", "Orange", "Pink", "Violet"]
+  },
+
+  "objects": {
+    "appleColors": ["Green", "Yellow", "Red"],
+    "heart": "Red"
+  },
+
+  "hud": {
+    "frame": "LightBlue",
+    "level": "Yellow",
+    "label": "Gray",
+    "playerName": "LightBlue",
+    "heart": "Red",
+    "apple": "Green",
+    "value": "White",
+    "score": "Orange",
+    "controlsCaption": "Violet",
+    "controlDirection": "Gray",
+    "controlKey": "White"
+  },
+
+  "menu": {
+    "frame": "LightBlue",
+    "title": "Yellow",
+    "item": "White",
+    "selectedItem": "Yellow",
+    "marker": "Yellow",
+    "hint": "Gray",
+    "playerName": "LightBlue",
+    "inputText": "White",
+    "inputCursor": "Yellow"
+  },
+
+  "leaderboard": {
+    "title": "Yellow",
+    "header": "Gray",
+    "firstPlace": "Red",
+    "currentGame": "Yellow",
+    "otherGames": "White"
+  },
+
+  "intro": {
+    "letterColors": ["Red", "Orange", "Yellow", "Green", "LightBlue", "Violet"]
+  },
+
+  "getReady": {
+    "letterColors": ["Red", "Orange", "Yellow", "Green", "LightBlue", "Blue", "Violet"],
+    "countdownCurrent": "Yellow",
+    "countdownOther": "Gray"
+  },
+
+  "fireworks": {
+    "levelCaption": "Yellow",
+    "levelBurstColors": ["Red", "Orange", "Yellow", "Green", "LightBlue", "Blue", "Violet"],
+    "finalCaptionColors": ["Red", "Orange", "Yellow", "Green", "LightBlue", "Blue", "Violet"],
+    "finalBurstColors": ["Red", "Orange", "Yellow", "Green", "LightBlue", "Blue", "Violet", "Pink", "White"],
+    "rocket": "White",
+    "trail": "Gray",
+    "fadedParticle": "Gray"
+  },
+
+  "audio": {
+    "musicVolume": 0.6,
+    "effectsVolume": 1.0,
+    "sounds": {
+      "apple": "apple.wav",
+      "heart": "heart.wav",
+      "biteTail": "bite-tail.wav",
+      "hitWall": "hit-wall.wav",
+      "levelComplete": "level-complete.wav",
+      "gameOver": "game-over.wav",
+      "victory": "victory.wav"
+    }
+  }
+}

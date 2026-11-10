@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Zmeika.App/Zmeika.App.csproj" />
+    <Project Path="src/Zmeika.Core/Zmeika.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Zmeika.Core.Tests/Zmeika.Core.Tests.csproj" />
+  </Folder>
+</Solution>
