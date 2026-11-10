@@ -23,12 +23,14 @@ internal sealed class LevelScreenPage(Theme theme) : IPreviewPage
         Rgb snakeColor = theme.DefaultSnakeColor.Color;
 
         FieldPainter.DrawGrid(buffer, ScreenLayout.FieldX, ScreenLayout.FieldY, ScreenLayout.FieldColumns, ScreenLayout.FieldRows, scheme);
-        DrawFieldObject(buffer, 29, 26, skin.Head, snakeColor, scheme);
-        DrawFieldObject(buffer, 29, 27, skin.Body, snakeColor, scheme);
-        DrawFieldObject(buffer, 29, 28, skin.Body, snakeColor, scheme);
-        DrawFieldObject(buffer, 29, 29, skin.Body, snakeColor, scheme);
+        const int Column = ScreenLayout.FieldColumns - 1;
+        const int TailRow = ScreenLayout.FieldRows - 1;
+        DrawFieldObject(buffer, Column, TailRow - 3, skin.Head, snakeColor, scheme);
+        DrawFieldObject(buffer, Column, TailRow - 2, skin.Body, snakeColor, scheme);
+        DrawFieldObject(buffer, Column, TailRow - 1, skin.Body, snakeColor, scheme);
+        DrawFieldObject(buffer, Column, TailRow, skin.Body, snakeColor, scheme);
         DrawFieldObject(buffer, 6, 4, Glyphs.Apple, theme.AppleColors[^1], scheme);
-        DrawFieldObject(buffer, 17, 12, Glyphs.Heart, theme.Heart, scheme);
+        DrawFieldObject(buffer, 11, 9, Glyphs.Heart, theme.Heart, scheme);
 
         DrawHud(buffer);
     }

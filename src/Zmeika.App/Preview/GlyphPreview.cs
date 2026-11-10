@@ -9,7 +9,7 @@ internal sealed class GlyphPreview
 {
     private readonly Theme _theme;
     private readonly IReadOnlyList<IPreviewPage> _pages;
-    private readonly FrameBuffer _buffer = new(ScreenLayout.Width, ScreenLayout.Height);
+    private readonly FrameBuffer _buffer = new(PreviewLayout.Width, PreviewLayout.Height);
     private int _pageIndex;
 
     public GlyphPreview(Theme theme)
@@ -38,7 +38,7 @@ internal sealed class GlyphPreview
             return;
         }
 
-        using ConsoleSession console = ConsoleSession.Open(ScreenLayout.Width, ScreenLayout.Height);
+        using ConsoleSession console = ConsoleSession.Open(PreviewLayout.Width, PreviewLayout.Height);
         RunInteractive();
     }
 
@@ -92,7 +92,7 @@ internal sealed class GlyphPreview
             CultureInfo.InvariantCulture,
             $"ZMEIKA GLYPH PREVIEW   page {_pageIndex + 1} / {_pages.Count}   {page.Title}");
         _buffer.Write(1, 0, header, _theme.Menu.Title);
-        _buffer.Write(1, ScreenLayout.Height - 1, NavigationHint(page), _theme.Menu.Hint);
+        _buffer.Write(1, PreviewLayout.Height - 1, NavigationHint(page), _theme.Menu.Hint);
     }
 
     private string WindowTitle(IPreviewPage page) =>

@@ -94,10 +94,9 @@ internal sealed class LevelScreen : IScreen
     private void PaintFinalMessage(FrameBuffer buffer, string title)
     {
         const string Hint = "Esc exit";
-        const int FieldWidth = (ScreenLayout.FieldColumns * ScreenLayout.CellWidth) + 2;
         int centerRow = ScreenLayout.FieldY + (ScreenLayout.FieldRows / 2);
 
-        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, FieldWidth, title.Length), centerRow, title, _theme.Menu.Title);
-        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, FieldWidth, Hint.Length), centerRow + 2, Hint, _theme.Menu.Hint);
+        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, ScreenLayout.FieldWidth, title.Length), centerRow, title, _theme.Menu.Title);
+        buffer.Write(ScreenLayout.CenterX(ScreenLayout.FieldX, ScreenLayout.FieldWidth, Hint.Length), centerRow + 2, Hint, _theme.Menu.Hint);
     }
 }

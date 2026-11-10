@@ -17,23 +17,25 @@ internal static class HudPainter
 
         FrameDrawing.Draw(buffer, ScreenLayout.HudX, ScreenLayout.HudY, ScreenLayout.HudWidth, ScreenLayout.HudHeight, FrameStyle.Single, theme.Frame);
 
-        buffer.Write(TextX, 2, Invariant($"LEVEL {model.Level} / {model.LevelCount}"), theme.Level);
-        buffer.Write(TextX, 4, "Player", theme.Label);
-        buffer.Write(TextX, 5, Fit(model.Player, TextWidth), theme.PlayerName);
-        buffer.Put(TextX, 7, Glyphs.Heart, theme.Heart);
-        buffer.Write(TextX + 2, 7, Invariant($"{model.Lives}"), theme.Value);
-        buffer.Put(TextX, 9, Glyphs.Apple, theme.Apple);
-        buffer.Write(TextX + 2, 9, Invariant($"{model.ApplesEaten} / {model.ApplesRequired}"), theme.Value);
-        buffer.Write(TextX, 11, "Score", theme.Label);
-        buffer.Write(TextX, 12, Invariant($"{model.Score}"), theme.Score);
+        int top = ScreenLayout.HudY;
+        buffer.Write(TextX, top + 1, Invariant($"LEVEL {model.Level} / {model.LevelCount}"), theme.Level);
+        buffer.Write(TextX, top + 3, "Player", theme.Label);
+        buffer.Write(TextX, top + 4, Fit(model.Player, TextWidth), theme.PlayerName);
+        buffer.Put(TextX, top + 6, Glyphs.Heart, theme.Heart);
+        buffer.Write(TextX + 2, top + 6, Invariant($"{model.Lives}"), theme.Value);
+        buffer.Put(TextX, top + 7, Glyphs.Apple, theme.Apple);
+        buffer.Write(TextX + 2, top + 7, Invariant($"{model.ApplesEaten} / {model.ApplesRequired}"), theme.Value);
+        buffer.Write(TextX, top + 9, "Score", theme.Label);
+        buffer.Write(TextX, top + 10, Invariant($"{model.Score}"), theme.Score);
 
         HudControls controls = model.Controls;
-        buffer.Write(TextX, 22, "Controls", theme.ControlsCaption);
-        WriteControl(buffer, 24, "Up", controls.Up, theme);
-        WriteControl(buffer, 25, "Down", controls.Down, theme);
-        WriteControl(buffer, 26, "Left", controls.Left, theme);
-        WriteControl(buffer, 27, "Right", controls.Right, theme);
-        WriteControl(buffer, 29, "Pause", controls.Pause, theme);
+        int bottom = ScreenLayout.HudY + ScreenLayout.HudHeight - 1;
+        buffer.Write(TextX, bottom - 7, "Controls", theme.ControlsCaption);
+        WriteControl(buffer, bottom - 6, "Up", controls.Up, theme);
+        WriteControl(buffer, bottom - 5, "Down", controls.Down, theme);
+        WriteControl(buffer, bottom - 4, "Left", controls.Left, theme);
+        WriteControl(buffer, bottom - 3, "Right", controls.Right, theme);
+        WriteControl(buffer, bottom - 2, "Pause", controls.Pause, theme);
     }
 
     private static void WriteControl(FrameBuffer buffer, int row, string direction, string key, HudTheme theme)

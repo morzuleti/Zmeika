@@ -13,7 +13,7 @@ public sealed record GameRules(
     int AppleVariantCount,
     IReadOnlyList<LevelRules> Levels)
 {
-    public static FieldSize Field { get; } = new(30, 30);
+    public static FieldSize Field { get; } = new(18, 18);
 
     public int LevelCount => Levels.Count;
 
