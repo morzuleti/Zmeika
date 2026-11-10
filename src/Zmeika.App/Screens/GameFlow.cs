@@ -44,6 +44,21 @@ internal sealed class GameFlow(GameRules rules, IRandomSource random, PlayersSto
     public GameSession StartNewGameForCurrentPlayer() =>
         StartNewGame(Player ?? throw new InvalidOperationException("No player has been chosen yet."));
 
+    public IReadOnlyList<LeaderboardRow> Leaderboard(int size) =>
+        players.Book.Leaderboard(_gameId ?? Guid.Empty, size);
+
+    public void RetryAfterGameOver(GameSession session)
+    {
+        ArgumentNullException.ThrowIfNull(session);
+
+        session.RetryAfterGameOver();
+        if (_gameId is { } gameId)
+        {
+            players.Book.Retry(gameId, session.Level, session.Lives, session.Score);
+            Save();
+        }
+    }
+
     public void OnLevelStarted(GameSession session)
     {
         ArgumentNullException.ThrowIfNull(session);

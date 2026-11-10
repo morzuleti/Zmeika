@@ -1,5 +1,5 @@
-using System.Globalization;
 using Zmeika.App.Rendering;
+using Zmeika.Core.Players;
 
 namespace Zmeika.App.Preview.Pages;
 
@@ -50,11 +50,14 @@ internal sealed class InterfacePage(Theme theme) : IPreviewPage
     {
         LeaderboardTheme leaderboard = theme.Leaderboard;
         buffer.Write(x, y, "LEADERBOARD", leaderboard.Title);
-        buffer.Write(x + 2, y + 2, "#   Name                 Score", leaderboard.Header);
-        WriteScore(buffer, x, y + 3, 1, "Petya", 2750, leaderboard.FirstPlace, isCurrent: false);
-        WriteScore(buffer, x, y + 4, 2, "Masha", 1200, leaderboard.CurrentGame, isCurrent: true);
-        WriteScore(buffer, x, y + 5, 3, "Kolya", 600, leaderboard.OtherGames, isCurrent: false);
-        WriteScore(buffer, x, y + 6, 4, "Dasha", 350, leaderboard.OtherGames, isCurrent: false);
+        LeaderboardRow[] rows =
+        [
+            new(1, "Petya", 2750, IsCurrent: false),
+            new(2, "Masha", 1200, IsCurrent: true),
+            new(3, "Kolya", 600, IsCurrent: false),
+            new(4, "Dasha", 350, IsCurrent: false),
+        ];
+        LeaderboardPainter.Paint(buffer, x, y + 2, rows, leaderboard);
         string legend =
             $"1st place {theme.Describe(leaderboard.FirstPlace)}, " +
             $"current game {theme.Describe(leaderboard.CurrentGame)}, " +
@@ -62,15 +65,6 @@ internal sealed class InterfacePage(Theme theme) : IPreviewPage
         buffer.Write(x, y + 8, legend, leaderboard.Header);
     }
 
-    private static void WriteScore(FrameBuffer buffer, int x, int y, int place, string name, int score, Rgb color, bool isCurrent)
-    {
-        if (isCurrent)
-        {
-            buffer.Put(x, y, Glyphs.MenuMarker, color);
-        }
-
-        buffer.Write(x + 2, y, string.Create(CultureInfo.InvariantCulture, $"{place,-3} {name,-18} {score,6}"), color);
-    }
 
     private void DrawKeyNames(FrameBuffer buffer, int x, int y)
     {

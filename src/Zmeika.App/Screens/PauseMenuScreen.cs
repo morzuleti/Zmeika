@@ -6,13 +6,14 @@ namespace Zmeika.App.Screens;
 
 internal sealed class PauseMenuScreen(GameContext context, GameSession session, IScreen resume) : IScreen
 {
-    private const int Height = 10;
+    private const int Height = 11;
     private const int ContinueItem = 0;
     private const int NewGameItem = 1;
-    private const int SettingsItem = 2;
-    private const int ExitItem = 3;
+    private const int LeaderboardItem = 2;
+    private const int SettingsItem = 3;
+    private const int ExitItem = 4;
 
-    private static readonly string[] s_items = ["Continue", "New game", "Settings", "Exit"];
+    private static readonly string[] s_items = ["Continue", "New game", "Leaderboard", "Settings", "Exit"];
     private static readonly TimeSpan s_hintDuration = TimeSpan.FromSeconds(2);
 
     private readonly MenuSelection _selection = new(s_items.Length);
@@ -53,7 +54,7 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
         string hint = _settingsHintLeft > TimeSpan.Zero
             ? "Settings: coming soon"
             : $"{Glyphs.ArrowUp}{Glyphs.ArrowDown} choose  Enter ok";
-        buffer.Write(x + 2, y + 8, hint, menu.Hint);
+        buffer.Write(x + 2, y + Height - 2, hint, menu.Hint);
     }
 
     private void Activate(int item)
@@ -65,6 +66,9 @@ internal sealed class PauseMenuScreen(GameContext context, GameSession session, 
                 break;
             case NewGameItem:
                 context.Navigator.Show(new GetReadyScreen(context, context.Flow.StartNewGameForCurrentPlayer()));
+                break;
+            case LeaderboardItem:
+                context.Navigator.Show(LeaderboardScreen.FromMenu(context, session, this));
                 break;
             case SettingsItem:
                 _settingsHintLeft = s_hintDuration;
