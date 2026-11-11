@@ -13,24 +13,39 @@ internal static class AudioMapFactory
         ArgumentNullException.ThrowIfNull(baseDirectory);
 
         string folder = Path.Combine(baseDirectory, SoundsFolder);
-        SoundsDto sounds = document.Audio.Sounds;
 
         return new AudioMap(
             [.. document.Levels.Select(level => Path.Combine(folder, level.Music))],
-            new Dictionary<SoundEffect, string>
-            {
-                [SoundEffect.Intro] = Path.Combine(folder, sounds.Intro),
-                [SoundEffect.Apple] = Path.Combine(folder, sounds.Apple),
-                [SoundEffect.Heart] = Path.Combine(folder, sounds.Heart),
-                [SoundEffect.BiteTail] = Path.Combine(folder, sounds.BiteTail),
-                [SoundEffect.HitWall] = Path.Combine(folder, sounds.HitWall),
-                [SoundEffect.LifeLost] = Path.Combine(folder, sounds.LifeLost),
-                [SoundEffect.LevelComplete] = Path.Combine(folder, sounds.LevelComplete),
-                [SoundEffect.GameOver] = Path.Combine(folder, sounds.GameOver),
-                [SoundEffect.Victory] = Path.Combine(folder, sounds.Victory),
-            },
+            SoundFiles(document.Audio.Sounds, folder),
             Volume(document.Audio.MusicVolume, "audio.musicVolume"),
             Volume(document.Audio.EffectsVolume, "audio.effectsVolume"));
+    }
+
+    private static Dictionary<SoundEffect, string> SoundFiles(SoundsDto sounds, string folder)
+    {
+        Dictionary<SoundEffect, string?> names = new()
+        {
+            [SoundEffect.Intro] = sounds.Intro,
+            [SoundEffect.Apple] = sounds.Apple,
+            [SoundEffect.Heart] = sounds.Heart,
+            [SoundEffect.BiteTail] = sounds.BiteTail,
+            [SoundEffect.HitWall] = sounds.HitWall,
+            [SoundEffect.LifeLost] = sounds.LifeLost,
+            [SoundEffect.LevelComplete] = sounds.LevelComplete,
+            [SoundEffect.GameOver] = sounds.GameOver,
+            [SoundEffect.Victory] = sounds.Victory,
+        };
+
+        Dictionary<SoundEffect, string> files = [];
+        foreach ((SoundEffect effect, string? name) in names)
+        {
+            if (name is not null)
+            {
+                files[effect] = Path.Combine(folder, name);
+            }
+        }
+
+        return files;
     }
 
     private static float Volume(double value, string path) =>
